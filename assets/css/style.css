@@ -1,0 +1,295 @@
+@import url('../fonts/Righteous/stylesheet.css');
+@import url('../fonts/Smythe/stylesheet.css');
+@import url('../fonts/Orbitron/stylesheet.css');
+@import url('../fonts/Reenie Beanie/stylesheet.css');
+
+body {
+    box-sizing: border-box;
+    height: 100vh;
+    width: 100%;
+}
+
+*,
+*::after,
+*::before {
+    box-sizing: inherit;
+    padding: 0px;
+    margin: 0px;
+}
+
+button {
+    outline: none;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+button::-moz-focus-inner {
+    outline: none;
+    border: 0;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.main-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F0D185;
+}
+
+.title-container {
+    height: 25vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'righteousregular';
+    font-size: 2rem;
+}
+
+.pomodoro-container {
+    height: 70vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.button-container {
+    height: 35%;
+    width: 50%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+}
+
+.break-length-container,
+.session-length-container {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+.break-title-container,
+.session-title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'smytheregular';
+    font-size: 1.5rem;
+}
+
+.break-length-display-container,
+.session-length-display-container {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-areas: "disp up""disp down";
+    grid-template-columns: 20% 20%;
+    grid-template-rows: 1fr 1fr;
+    justify-content: center;
+}
+
+.break-length-display,
+.session-length-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-area: disp;
+    font-family: 'righteousregular';
+    font-size: 1.5rem;
+}
+
+.break-length-up,
+.session-length-up {
+    grid-area: up;
+}
+
+.arrow-up,
+.arrow-down {
+    width: 30%;
+}
+
+.break-length-down,
+.session-length-down {
+    grid-area: down;
+}
+
+.pomodoro-main-display-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 3%;
+}
+
+.pomodoro-background {
+    height: 100%;
+    width: 33%;
+    background-color: #148577;
+    border: 10px solid black;
+    border-radius: 155.5px;
+    box-shadow: 0px 2px 7px 0px black;
+}
+
+.pomodoro-display-container {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    padding: 3%;
+}
+
+.session-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.session-clock-title {
+    font-family: 'orbitronregular';
+    font-size: 3rem;
+    color: #FFFF;
+}
+
+.display-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pomodoro-display {
+    font-family: 'orbitronregular';
+    font-size: 5rem;
+    color: #030303;
+}
+
+.pomodoro-button-container {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-areas: "play pause reset";
+    grid-template-rows: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.play-button-container,
+.pause-button-container,
+.reset-button-container {
+    cursor: pointer;
+}
+
+.author {
+    height: 5vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'reenie_beanieregular';
+    font-size: 1.5rem;
+}
+
+@media screen and (max-width: 1200px) {
+    .pomodoro-background {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .pomodoro-background {
+        width: 65%;
+    }
+
+    .title-container {
+        font-size: 1.8rem;
+    }
+
+    .session-clock-title {
+        font-size: 2.5rem;
+    }
+
+    .pomodoro-display {
+        font-size: 4.5rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .title-container {
+        font-size: 1.2rem;
+    }
+
+    .button-container {
+        width: 85%;
+    }
+
+    .pomodoro-background {
+        width: 90%;
+    }
+
+    .session-clock-title {
+        font-size: 2rem;
+    }
+
+    .pomodoro-display {
+        font-size: 4rem;
+    }
+
+    .author {
+        font-size: 1.3rem;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .title-container {
+        font-size: 1rem;
+    }
+
+    .button-container {
+        width: 90%;
+    }
+
+    .break-title-container,
+    .session-title-container {
+        font-size: 1.3rem;
+    }
+
+    .break-length-display,
+    .session-length-display {
+        font-size: 1.3rem;
+    }
+
+    .session-clock-title {
+        font-size: 1.5rem;
+    }
+
+    .pomodoro-display {
+        font-size: 3rem;
+    }
+
+    .pomodoro-background {
+        border-radius: 90px;
+    }
+
+    .author {
+        font-size: 1.2rem;
+    }
+}
