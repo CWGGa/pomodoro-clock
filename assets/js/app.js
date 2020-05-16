@@ -67,9 +67,10 @@ $(document).ready(function () {
     });
 
     resetButton.addEventListener('click', function () {
+        pomodorDisplay.pause = 'pause'
         sessionLength.innerHTML = '25';
         breakLength.innerHTML = '5';
-        timeLeft.innerHTML = `${sessionLength.innerHTML}:00`
+        timeLeft.innerHTML = `${sessionLength.innerHTML}:00`;
     });
 
     function countDown() {
@@ -115,7 +116,7 @@ $(document).ready(function () {
                         pomodorDisplay.display = 'break'
                         pomodoroTitle.innerHTML = 'Break';
                         timeLeft.innerHTML = `${breakLength.innerHTML}:00`;
-                    } else if (pomodorDisplay.playing == 'break') {
+                    } else if (pomodorDisplay.playing === 'break') {
                         pomodorDisplay.display = 'session'
                         pomodoroTitle.innerHTML = 'Session'
                         timeLeft.innerHTML = `${sessionLength.innerHTML}:00`;
