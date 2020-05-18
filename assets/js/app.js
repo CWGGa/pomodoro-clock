@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    const pomodorDisplay = {
+    var pomodorDisplay = {
         session: 25,
         break: 5,
         display: null,
@@ -28,6 +28,7 @@ $(document).ready(function () {
     breakIncrement.addEventListener('click', function () {
         var breakInnerValue = parseInt(breakLength.innerHTML);
         breakLength.innerHTML = breakInnerValue + 1;
+        breakInnerValue < 60 ? breakLength.innerHTML = breakInnerValue + 1 : breakLength.innerHTML = 60;
     });
 
     breakDecrement.addEventListener('click', function () {
@@ -38,6 +39,7 @@ $(document).ready(function () {
     sessionIncrement.addEventListener('click', function () {
         var sessionInnerValue = parseInt(sessionLength.innerHTML);
         sessionLength.innerHTML = sessionInnerValue + 1;
+        sessionInnerValue < 60 ? sessionLength.innerHTML = breakInnerValue + 1 : sessionLength.innerHTML = 60;
         if (sessionInnerValue >= 1 && sessionInnerValue <= 8) {
             timeLeft.innerHTML = `0${sessionLength.innerHTML}:00`
         } else {
@@ -62,12 +64,14 @@ $(document).ready(function () {
             countDown();
         } else if (pomodorDisplay['pause'] === 'play') {
             pomodorDisplay.pause = 'pause'
+        } else if (pomodorDisplay['pause'] === 'reset') {
+            pomodorDisplay.pause = 'play'
             countDown();
         }
     });
 
     resetButton.addEventListener('click', function () {
-        pomodorDisplay.pause = 'pause'
+        pomodorDisplay.pause = 'reset'
         sessionLength.innerHTML = '25';
         breakLength.innerHTML = '5';
         timeLeft.innerHTML = `${sessionLength.innerHTML}:00`;
@@ -80,50 +84,81 @@ $(document).ready(function () {
 
         if (pomodorDisplay['pause'] === 'play') {
             var countIt = setTimeout(function () {
-                if (getMin !== 0 && getSec === 00) {
 
-                    if (getMin === 1) {
-                        timeLeft.innerHTML = `00:59`
-                    } else if (getMin > 1 && getMin < 10) {
-                        timeLeft.innerHTML = `0${getMin - 1}:59`;
-                    } else {
-                        timeLeft.innerHTML = `${getMin - 1}:59`;
-                    }
-                } else if (getMin !== 0 && getSec !== 0) {
-                    if (getMin >= 1 && getMin < 10) {
-                        if (getSec >= 1 && getSec <= 10) {
-                            timeLeft.innerHTML = `${getMin}:0${getSec - 1}`
-                        } else {
-                            timeLeft.innerHTML = `0${getMin}:${getSec - 1}`
-                        }
-                    } else {
-                        if (getSec >= 1 && getSec <= 10) {
-                            timeLeft.innerHTML = `${getMin}:0${getSec - 1}`
-                        } else {
-                            timeLeft.innerHTML = `${getMin}:${getSec - 1}`
-                        }
-                    }
-                } else if (getMin === 0 && getSec != 0) {
-                    if (getSec >= 1 && getSec <= 10) {
-                        timeLeft.innerHTML = `${getMin}:0${getSec - 1}`
-                    } else {
-                        timeLeft.innerHTML = `00:${getSec - 1}`
-                    }
-                } else if (getMin === 0 && getSec === 0) {
-                    timeLeft.innerHTML = `00:00`
+                if (getMin === 0 && getSec === 0) {
                     audioPlay.play();
-                    if (pomodorDisplay.playing === 'session') {
-                        pomodorDisplay.display = 'break'
-                        pomodoroTitle.innerHTML = 'Break';
-                        timeLeft.innerHTML = `${breakLength.innerHTML}:00`;
-                    } else if (pomodorDisplay.playing === 'break') {
-                        pomodorDisplay.display = 'session'
-                        pomodoroTitle.innerHTML = 'Session'
-                        timeLeft.innerHTML = `${sessionLength.innerHTML}:00`;
+                    switch (pomodorDisplay['playing']) {
+                        case 'session':
+                            pomodorDisplay.playing = 'break';
+                            pomodoroTitle.innerHTML = 'Break';
+                            if (breakLength.innerHTML >= 1 && breakLength.innerHTML < 10) {
+                                timeLeft.innerHTML = `0${breakLength.innerHTML}:00`;
+                            } else {
+                                timeLeft.innerHTML = `${breakLength.innerHTML}:00`;
+                            }
+                            $('#timer-label').css('color', '#FFFF')
+                            $('#time-left').css('color', '#030303')
+                            countDown();
+                            break;
+                        case 'break':
+                            pomodorDisplay.playing = 'session';
+                            pomodoroTitle.innerHTML = 'Session';
+                            if (sessionLength.innerHTML >= 1 && sessionLength.innerHTML < 10) {
+                                timeLeft.innerHTML = `0${sessionLength.innerHTML}:00`;
+                            } else {
+                                timeLeft.innerHTML = `${sessionLength.innerHTML}:00`;
+                            }
+                            $('#timer-label').css('color', '#FFFF')
+                            $('#time-left').css('color', '#030303')
+                            countDown();
+                            break;
+                        default:
                     }
+                } else {
+                    if (getMin !== 0 && getSec === 0) {
+                        if (getMin >= 1 && getMin <= 10) {
+                            timeLeft.innerHTML = `0${getMin-1}:59`;
+                        } else {
+                            timeLeft.innerHTML = `${getMin - 1}:59`;
+                        }
+                    } else if ((getMin >= 1 && getMin < 10) && (getSec >= 1 && getSec < 10)) {
+                        timeLeft.innerHTML = `0${getMin}:0${getSec- 1 }`;
+                    } else if ((getMin >= 1 && getMin <= 10) && (getSec >= 1 && getSec <= 10)) {
+                        timeLeft.innerHTML = `0${getMin}:0${getSec-1}`;
+                    } else if ((getMin >= 1 && getMin <= 10) && !(getSec >= 1 && getSec <= 10)) {
+                        timeLeft.innerHTML = `0${getMin}:${getSec-1}`;
+                    } else if (getMin === 0 && getSec != 0) {
+                        if (getSec >= 1 && getSec <= 10) {
+                            timeLeft.innerHTML = `00:0${getSec - 1}`;
+                        } else {
+                            timeLeft.innerHTML = `00:${getSec - 1}`;
+                        }
+                    } else if (getMin === 0 && (getSec >= 1 && getSec <= 10)) {
+                        timeLeft.innerHTML = `00:0${getSec-1}`;
+                    } else if (getMin >= 10 && (getSec >= 1 && getSec <= 10)) {
+                        timeLeft.innerHTML = `${getMin}:0${getSec-1}`;
+                    } else {
+                        timeLeft.innerHTML = `${getMin}:${getSec-1}`;
+                    }
+                }
+
+                if ((getMin === 1 & getSec <= 1) || (getMin === 0 && (getSec >= 1 && getSec <= 59)) || (getMin === 1 && getSec === 1)) {
+                    $('#timer-label, #time-left').css('color', '#FF2424')
+                } else if (getMin !== 1) {
+                    $('#timer-label').css('color', '#FFFF')
+                    $('#time-left').css('color', '#030303')
                 }
                 countDown();
             }, convertMinToSec)
-        } else if (pomodorDisplay['pause'] === 'pause') {}
+        } else if (pomodorDisplay['pause'] === 'pause') {
+            window.clearTimeout(countIt);
+            audioPlay.pause();
+        } else if (pomodorDisplay['pause'] === 'reset') {
+            sessionLength.innerHTML = '25';
+            breakLength.innerHTML = '5';
+            timeLeft.innerHTML = `${sessionLength.innerHTML}:00`;
+            audioPlay.pause();
+            audioPlay.src = audioPlay.src;
+        }
     }
 })
